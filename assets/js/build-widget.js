@@ -10,4 +10,5 @@ BuildWidget.prototype.build = function() {
 	this.updateTree();
 	this.updateText();
 	this.buildInput();
+	this.buildTooltip();
 };

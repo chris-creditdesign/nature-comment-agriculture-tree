@@ -24,10 +24,60 @@
 	    margin-right: 10px;
 	}
 
-	svg {
-		text {
-			pointer-events: none;
+	// svg {
+	// 	text {
+	// 		pointer-events: none;
+	// 	}
+	// }
+
+	.chart {
+		position: relative;
+	}
+
+	.widget-tooltip {
+		position: absolute;
+		height: auto;
+		padding: 6px 10px 6px 15px;
+		color: #ccc;
+		background-color: #333;
+		pointer-events: none;
+		font-size: 0.8em;
+		line-height: 1.4em;
+		opacity: 1;
+		-webkit-transition: opacity 0.2s ease;
+		transition: opacity 0.2s ease;
+
+		p {
+			padding: 0;
 		}
+
+	}
+
+	.tooltip-left:before {
+		content: "";
+		position:absolute;
+		bottom: 13px;
+		right: -7px;
+		border-left: 8px solid #333;
+		border-top: 8px solid transparent;
+		border-bottom: 8px solid transparent;
+		border-right: 0;
+	}
+
+	.tooltip-right:before {
+		content: "";
+		position:absolute;
+		bottom: 13px;
+		left: -7px;
+		border-right: 8px solid #333;
+		border-top: 8px solid transparent;
+		border-bottom: 8px solid transparent;
+		border-left: 0;
+	}
+
+	.hidden {
+		opacity: 0;
+		pointer-events: none;
 	}
 
 } // outerwrapper

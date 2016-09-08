@@ -52,6 +52,7 @@ module.exports = function(grunt){
 						'assets/js/find-data.js',
 						'assets/js/update-tree.js',
 						'assets/js/update-text.js',
+						'assets/js/build-tooltip.js',
 						'assets/js/index.js',
 						'assets/concat/script-close.txt',
 						'assets/concat/polopoly-footer.html'
@@ -74,6 +75,7 @@ module.exports = function(grunt){
 						'assets/js/find-data.js',
 						'assets/js/update-tree.js',
 						'assets/js/update-text.js',
+						'assets/js/build-tooltip.js',
 						'assets/js/index.js',
 						'assets/concat/script-close.txt',
 						],

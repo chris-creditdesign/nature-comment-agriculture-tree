@@ -22,11 +22,55 @@
   display: inline-block;
   margin-right: 10px;
 }
-.outerwrapper svg text {
+.outerwrapper .chart {
+  position: relative;
+}
+.outerwrapper .widget-tooltip {
+  position: absolute;
+  height: auto;
+  padding: 6px 10px 6px 15px;
+  color: #ccc;
+  background-color: #333;
+  pointer-events: none;
+  font-size: 0.8em;
+  line-height: 1.4em;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+.outerwrapper .widget-tooltip p {
+  padding: 0;
+}
+.outerwrapper .tooltip-left:before {
+  content: "";
+  position: absolute;
+  bottom: 13px;
+  right: -7px;
+  border-left: 8px solid #333;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-right: 0;
+}
+.outerwrapper .tooltip-right:before {
+  content: "";
+  position: absolute;
+  bottom: 13px;
+  left: -7px;
+  border-right: 8px solid #333;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  border-left: 0;
+}
+.outerwrapper .hidden {
+  opacity: 0;
   pointer-events: none;
 }
 
 </style>
+<!-- <div class="status-message">
+	<p>This interactive graphic requires a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.</p>
+	<p>The data used to build this graphic can be downloaded as comma-separated values in plain-text form here: <a href="http://www.nature.com/widget_assets_polopoly/v525n7569/interd-data.csv" title="Download interd-data.csv">interd-data.csv</a>.</p>
+</div> -->
+
 <div class="outerwrapper">
 	<h2>INTERACTIVE: Headline</h2>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis atque sunt incidunt vero, qui nisi! Reprehenderit velit qui, omnis aliquam animi! Repellendus porro, quo quia quisquam repudiandae voluptatem cupiditate maxime.</p>
@@ -51,7 +95,12 @@
 	</fieldset>
 </form>
 
-	<div id="agrd-chart"></div>
+	<div class="chart" id="agrd-chart">
+		<div class="widget-tooltip tooltip-left hidden" id="widget-tooltip">
+			<p id="agrd-country"></p>
+			<p><span id="agrd-value"></span> million 2009PPP$</p>
+		</div>
+	</div>
 </div>
 <!--[if gt IE 8]><!-->
 <script type="text/javascript">
@@ -84,6 +133,7 @@ BuildWidget.prototype.build = function() {
 	this.updateTree();
 	this.updateText();
 	this.buildInput();
+	this.buildTooltip();
 };
 
 BuildWidget.prototype.buildData = function() {
@@ -138,6 +188,7 @@ BuildWidget.prototype.buildInput = function() {
 		self.updateText();
 	});
 };
+
 BuildWidget.prototype.findData = function() {
 	if (this.params.year === "agrd-1960") {
 		return this.root1960;
@@ -197,7 +248,9 @@ BuildWidget.prototype.updateTree = function() {
 		.attr("height", function(d) {
 			return d.y1 - d.y0;
 		})
-		.attr("opacity", 0)
+		.attr("stroke", "#666")
+		.attr("stroke-width", 0)
+		.attr("opacity", 0) 
 		.transition(this.params.transition)
 		.attr("opacity", 1);
  
@@ -264,6 +317,7 @@ BuildWidget.prototype.updateText = function() {
 		})
 		.attr("dy", "1em")
 		.attr("dx", "0.3em")
+		.attr("pointer-events", "none")
 		.attr("opacity", 0)
 		.transition(this.params.transition)
 		.attr("opacity", function(d) {
@@ -279,6 +333,52 @@ BuildWidget.prototype.updateText = function() {
 			}
 		});
 };
+BuildWidget.prototype.buildTooltip = function() {
+	var self = this;
+
+	var top, left;
+
+	this.svgBoxes.selectAll("rect")
+		.on("mouseover", function(d) {
+			top = d.y0 + ((d.y1 - d.y0) / 2);
+			left = d.x0 + ((d.x1 - d.x0) / 2);
+
+			var tooltipWidth = parseInt(d3.select("#widget-tooltip").node().getBoundingClientRect().width, 10);
+			var tooltipHeight = parseInt(d3.select("#widget-tooltip").node().getBoundingClientRect().height, 10);
+	
+			if ( d.x0 > (self.params.width / 2) ) {
+				left -= (tooltipWidth + 8);
+				d3.select("#widget-tooltip").classed("tooltip-left", true);
+				d3.select("#widget-tooltip").classed("tooltip-right", false);
+			} else {
+				left += 8;
+				d3.select("#widget-tooltip").classed("tooltip-left", false);
+				d3.select("#widget-tooltip").classed("tooltip-right", true);
+			}
+
+			d3.select("#widget-tooltip")
+				.style("top",  (top - (tooltipHeight / 2)) + "px")
+				.style("left", left + "px")
+				.classed("hidden", false);
+
+			d3.select("#agrd-country").text(d.id);
+			d3.select("#agrd-value").text(parseFloat(d.value).toFixed(2));
+
+			d3.select(this).attr("stroke-width", 2);
+		})
+		.on("mouseout", function(d) {
+			self.hideTooltip();
+			d3.select(this).attr("stroke-width", 0);
+		});
+
+
+};
+
+BuildWidget.prototype.hideTooltip = function () {
+	d3.select("#widget-tooltip").classed("hidden", true);
+};
+
+
 (function() {
 	var init = function($)	{
 		var params, widget;

@@ -48,7 +48,9 @@ BuildWidget.prototype.updateTree = function() {
 		.attr("height", function(d) {
 			return d.y1 - d.y0;
 		})
-		.attr("opacity", 0)
+		.attr("stroke", "#666")
+		.attr("stroke-width", 0)
+		.attr("opacity", 0) 
 		.transition(this.params.transition)
 		.attr("opacity", 1);
  
