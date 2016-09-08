@@ -43,6 +43,13 @@ module.exports = function(grunt){
 						'assets/concat/style-close.txt',
 						'assets/widget.html',
 						'assets/concat/script-open.txt',
+						'assets/js/data.js',
+						'assets/js/params.js',
+						'assets/js/build-widget.js',
+						'assets/js/build-data.js',
+						'assets/js/build-graphic.js',
+						'assets/js/build-input.js',
+						'assets/js/update-tree.js',
 						'assets/js/index.js',
 						'assets/concat/script-close.txt',
 						'assets/concat/polopoly-footer.html'
@@ -56,7 +63,14 @@ module.exports = function(grunt){
 						'assets/concat/style-close.txt',
 						'assets/widget.html',
 						'assets/concat/script-open.txt',
-						'assets/js/index.min.js',
+						'assets/js/data.js',
+						'assets/js/params.js',
+						'assets/js/build-widget.js',
+						'assets/js/build-data.js',
+						'assets/js/build-graphic.js',
+						'assets/js/build-input.js',
+						'assets/js/update-tree.js',
+						'assets/js/index.js',
 						'assets/concat/script-close.txt',
 						],
 				dest: 'dist/index.html'
@@ -69,7 +83,7 @@ module.exports = function(grunt){
 		        tasks: ['buildcss','concat']
 		    },
 			uglify: {
-				files: ['assets/js/index.js'],
+				files: ['assets/js/*.js'],
 				tasks: ['jshint','concat']
 			},
 			concat: {

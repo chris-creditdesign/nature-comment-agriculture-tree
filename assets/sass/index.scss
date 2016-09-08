@@ -10,9 +10,18 @@
 	position: relative;
 	border: 1px solid #c8c7cf;
 
-	h2,h3,p {
+	h2,h3,p,form {
 		padding: 10px 10px 0 10px;
 		margin: 0;
+	}
+
+	ul {
+		margin: 0 0 10px 0;
+	}
+
+	li {
+	    display: inline-block;
+	    margin-right: 10px;
 	}
 
 } // outerwrapper

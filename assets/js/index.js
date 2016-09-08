@@ -1,8 +1,16 @@
 (function() {
 	var init = function($)	{
+		var params, widget;
+
 		/*	Load D3 */
 		$.getScript("//d3js.org/d3.v4.min.js", function() {
-			console.log(d3);
+
+			params = buildParams();
+			widget = new BuildWidget("#agrd-chart", params, data);
+			widget.build();
+
+			console.log(widget);
+
 		}); 
 	};
 
