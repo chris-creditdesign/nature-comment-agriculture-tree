@@ -5,5 +5,6 @@ BuildWidget.prototype.buildInput = function() {
 	this.radioYear.on("change", function() {
 		self.params.year = this.value;
 		self.updateTree();
+		self.updateText();
 	});
 };

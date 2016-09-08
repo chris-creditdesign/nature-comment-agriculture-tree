@@ -9,8 +9,6 @@
 			widget = new BuildWidget("#agrd-chart", params, data);
 			widget.build();
 
-			console.log(widget);
-
 		}); 
 	};
 

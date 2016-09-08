@@ -71,6 +71,9 @@
   display: inline-block;
   margin-right: 10px;
 }
+.outerwrapper svg text {
+  pointer-events: none;
+}
 
 </style>
 <div class="outerwrapper">
@@ -110,7 +113,7 @@ function buildParams() {
 	params.year = "agrd-1960";
 
 	params.format = d3.format(",d");
-	params.transition = d3.transition().duration(750);
+	params.transition = d3.transition().duration(800);
 	params.colourScale = d3.scaleOrdinal()
 		.domain(["high income", "middle income", "low income"])
 		.range(["#ee7183","#44b8c9","#8fc297"]);
@@ -128,6 +131,7 @@ BuildWidget.prototype.build = function() {
 	this.buildData();
 	this.buildGraphic();
 	this.updateTree();
+	this.updateText();
 	this.buildInput();
 };
 
@@ -170,7 +174,9 @@ BuildWidget.prototype.buildGraphic = function() {
 		.attr("height", this.params.height);
 
 	this.svgBoxes = this.svg.append("g");
+	this.svgText = this.svg.append("g");
 };
+
 BuildWidget.prototype.buildInput = function() {
 	var self = this;
 	this.radioYear = d3.selectAll("#agrd-year input[name=year]");
@@ -178,33 +184,32 @@ BuildWidget.prototype.buildInput = function() {
 	this.radioYear.on("change", function() {
 		self.params.year = this.value;
 		self.updateTree();
+		self.updateText();
 	});
 };
+BuildWidget.prototype.findData = function() {
+	if (this.params.year === "agrd-1960") {
+		return this.root1960;
+	} else {
+		return this.root2011;
+	}
+
+};
+
 BuildWidget.prototype.updateTree = function() {
 	var self = this;
 
-	function findData() {
-		if (self.params.year === "agrd-1960") {
-			return self.root1960;
-		} else {
-			return self.root2011;
-		}
-	}
-	
-	// JOIN new data with old elements
+	/* JOIN */
 	this.boxes = this.svgBoxes.selectAll("rect")
-		.data(findData(), function(d) {
+		.data(this.findData(), function(d) {
 			return d.id;
 		});
 	
-	// EXIT old elements not present in the data
+	/* EXIT */
 	this.boxes.exit()
-		.transition(this.params.transition)
-		.attr("x", 0)
-		.attr("y", this.params.height)
 		.remove();
 	
-	// UPDATE old elements present in new data
+	/* UPDATE */
 	this.boxes.transition(this.params.transition)
 		.attr("x", function(d) {
 			return d.x0;
@@ -219,13 +224,9 @@ BuildWidget.prototype.updateTree = function() {
 			return d.y1 - d.y0;
 		});
 	
-	
+	/* ENTER */
 	this.boxes.enter()
 		.append("rect")
-		.attr("x", 0)
-		.attr("y", 0)
-		.attr("width", 0)
-		.attr("height", 0)
 		.attr("fill", function(d) {
 				if (d.depth > 1) {
 					return self.params.colourScale(d.parent.id);
@@ -233,7 +234,6 @@ BuildWidget.prototype.updateTree = function() {
 					return "#ffffff";
 				}
 		})
-		.transition(this.params.transition)
 		.attr("x", function(d) {
 			return d.x0;
 		})
@@ -245,9 +245,89 @@ BuildWidget.prototype.updateTree = function() {
 		})
 		.attr("height", function(d) {
 			return d.y1 - d.y0;
-		});
+		})
+		.attr("opacity", 0)
+		.transition(this.params.transition)
+		.attr("opacity", 1);
+ 
 };
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+BuildWidget.prototype.updateText = function() {
+	var self = this;
+
+	/* JOIN */
+	this.text = this.svgText.selectAll("text")
+		.data(this.findData(), function(d) {
+			return d.id;
+		});
+	
+	/* EXIT */
+	this.text.exit()
+		.remove();
+	
+	/* UPDATE */
+	this.text.transition(this.params.transition)
+		.attr("x", function(d) {
+			return d.x0;
+		})
+		.attr("y", function(d) {
+			return d.y0;
+		})
+		.attr("opacity", function(d) {
+			var textWidth = d3.select(this).node().getBBox().width;
+			var textHeight = d3.select(this).node().getBBox().height;
+			var boxWidth = d.x1 - d.x0;
+			var boxHeight = d.y1 - d.y0;
+
+			if (textWidth >= boxWidth || textHeight >= boxHeight) {
+				return 0;
+			} else {
+				return 1;
+			}
+		});
+	
+	/* ENTER */
+	this.text.enter()
+		.append("text")
+		.text(function (d) {
+			return d.id;
+		})
+		.attr("x", function(d) {
+			return d.x0;
+		})
+		.attr("y", function(d) {
+			return d.y0;
+		})
+		.attr("dy", "1em")
+		.attr("dx", "0.3em")
+		.attr("opacity", 0)
+		.transition(this.params.transition)
+		.attr("opacity", function(d) {
+			var textWidth = d3.select(this).node().getBBox().width;
+			var textHeight = d3.select(this).node().getBBox().height;
+			var boxWidth = d.x1 - d.x0;
+			var boxHeight = d.y1 - d.y0;
+
+			if (textWidth >= boxWidth || textHeight >= boxHeight) {
+				return 0;
+			} else {
+				return 1;
+			}
+		});
+};
 (function() {
 	var init = function($)	{
 		var params, widget;
@@ -258,8 +338,6 @@ BuildWidget.prototype.updateTree = function() {
 			params = buildParams();
 			widget = new BuildWidget("#agrd-chart", params, data);
 			widget.build();
-
-			console.log(widget);
 
 		}); 
 	};

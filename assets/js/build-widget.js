@@ -8,5 +8,6 @@ BuildWidget.prototype.build = function() {
 	this.buildData();
 	this.buildGraphic();
 	this.updateTree();
+	this.updateText();
 	this.buildInput();
 };

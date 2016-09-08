@@ -21,3 +21,6 @@
   display: inline-block;
   margin-right: 10px;
 }
+.outerwrapper svg text {
+  pointer-events: none;
+}

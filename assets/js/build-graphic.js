@@ -5,4 +5,5 @@ BuildWidget.prototype.buildGraphic = function() {
 		.attr("height", this.params.height);
 
 	this.svgBoxes = this.svg.append("g");
+	this.svgText = this.svg.append("g");
 };

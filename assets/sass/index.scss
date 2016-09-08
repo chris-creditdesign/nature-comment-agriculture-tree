@@ -24,5 +24,11 @@
 	    margin-right: 10px;
 	}
 
+	svg {
+		text {
+			pointer-events: none;
+		}
+	}
+
 } // outerwrapper
 

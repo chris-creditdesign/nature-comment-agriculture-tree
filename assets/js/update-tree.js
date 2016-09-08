@@ -1,28 +1,17 @@
 BuildWidget.prototype.updateTree = function() {
 	var self = this;
 
-	function findData() {
-		if (self.params.year === "agrd-1960") {
-			return self.root1960;
-		} else {
-			return self.root2011;
-		}
-	}
-	
-	// JOIN new data with old elements
+	/* JOIN */
 	this.boxes = this.svgBoxes.selectAll("rect")
-		.data(findData(), function(d) {
+		.data(this.findData(), function(d) {
 			return d.id;
 		});
 	
-	// EXIT old elements not present in the data
+	/* EXIT */
 	this.boxes.exit()
-		.transition(this.params.transition)
-		.attr("x", 0)
-		.attr("y", this.params.height)
 		.remove();
 	
-	// UPDATE old elements present in new data
+	/* UPDATE */
 	this.boxes.transition(this.params.transition)
 		.attr("x", function(d) {
 			return d.x0;
@@ -37,13 +26,9 @@ BuildWidget.prototype.updateTree = function() {
 			return d.y1 - d.y0;
 		});
 	
-	
+	/* ENTER */
 	this.boxes.enter()
 		.append("rect")
-		.attr("x", 0)
-		.attr("y", 0)
-		.attr("width", 0)
-		.attr("height", 0)
 		.attr("fill", function(d) {
 				if (d.depth > 1) {
 					return self.params.colourScale(d.parent.id);
@@ -51,7 +36,6 @@ BuildWidget.prototype.updateTree = function() {
 					return "#ffffff";
 				}
 		})
-		.transition(this.params.transition)
 		.attr("x", function(d) {
 			return d.x0;
 		})
@@ -63,5 +47,22 @@ BuildWidget.prototype.updateTree = function() {
 		})
 		.attr("height", function(d) {
 			return d.y1 - d.y0;
-		});
+		})
+		.attr("opacity", 0)
+		.transition(this.params.transition)
+		.attr("opacity", 1);
+ 
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
