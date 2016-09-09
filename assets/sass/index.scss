@@ -6,7 +6,6 @@
 
 .outerwrapper {
 	width: 100%;
-	min-height: 900px;
 	position: relative;
 	border: 1px solid #c8c7cf;
 
@@ -15,23 +14,34 @@
 		margin: 0;
 	}
 
-	ul {
-		margin: 0 0 10px 0;
-	}
-
 	li {
-	    display: inline-block;
-	    margin-right: 10px;
+		display: inline-block;
 	}
 
-	// svg {
-	// 	text {
-	// 		pointer-events: none;
-	// 	}
-	// }
+	.key {
+		margin: 10px 0 0 0;
+		padding-left: 10px;
+
+		li {
+			padding: 0 0 0 6px;
+			margin: 4px 15px 8px 0;
+		}
+	}
+
+	.year-select {
+		ul {
+			padding-left: 2px;
+			margin-bottom: 10px;
+		}
+
+		li {
+			padding: 0 10px 0 0;
+		}
+	}
 
 	.chart {
 		position: relative;
+		margin-bottom: -5px // is this a good idea?
 	}
 
 	.widget-tooltip {

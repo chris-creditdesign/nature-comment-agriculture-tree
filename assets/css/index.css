@@ -6,7 +6,6 @@
 
 .outerwrapper {
   width: 100%;
-  min-height: 900px;
   position: relative;
   border: 1px solid #c8c7cf;
 }
@@ -14,15 +13,27 @@
   padding: 10px 10px 0 10px;
   margin: 0;
 }
-.outerwrapper ul {
-  margin: 0 0 10px 0;
-}
 .outerwrapper li {
   display: inline-block;
-  margin-right: 10px;
+}
+.outerwrapper .key {
+  margin: 10px 0 0 0;
+  padding-left: 10px;
+}
+.outerwrapper .key li {
+  padding: 0 0 0 6px;
+  margin: 4px 15px 8px 0;
+}
+.outerwrapper .year-select ul {
+  padding-left: 2px;
+  margin-bottom: 10px;
+}
+.outerwrapper .year-select li {
+  padding: 0 10px 0 0;
 }
 .outerwrapper .chart {
   position: relative;
+  margin-bottom: -5px;
 }
 .outerwrapper .widget-tooltip {
   position: absolute;

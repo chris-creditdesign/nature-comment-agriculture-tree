@@ -7,7 +7,6 @@
 
 .outerwrapper {
   width: 100%;
-  min-height: 900px;
   position: relative;
   border: 1px solid #c8c7cf;
 }
@@ -15,15 +14,27 @@
   padding: 10px 10px 0 10px;
   margin: 0;
 }
-.outerwrapper ul {
-  margin: 0 0 10px 0;
-}
 .outerwrapper li {
   display: inline-block;
-  margin-right: 10px;
+}
+.outerwrapper .key {
+  margin: 10px 0 0 0;
+  padding-left: 10px;
+}
+.outerwrapper .key li {
+  padding: 0 0 0 6px;
+  margin: 4px 15px 8px 0;
+}
+.outerwrapper .year-select ul {
+  padding-left: 2px;
+  margin-bottom: 10px;
+}
+.outerwrapper .year-select li {
+  padding: 0 10px 0 0;
 }
 .outerwrapper .chart {
   position: relative;
+  margin-bottom: -5px;
 }
 .outerwrapper .widget-tooltip {
   position: absolute;
@@ -77,25 +88,31 @@
 	<h2>INTERACTIVE: Headline</h2>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis atque sunt incidunt vero, qui nisi! Reprehenderit velit qui, omnis aliquam animi! Repellendus porro, quo quia quisquam repudiandae voluptatem cupiditate maxime.</p>
 
-<form>
-	<fieldset id="agrd-year">
-	  <legend>Year</legend>
-	  <ul>
-		<li>
-			<label for="agrd1960">
-				<input type="radio" id="agrd1960" name="year" value="agrd-1960" checked/>
-				1960
-			</label>
-		</li>
-		<li>
-			<label for="agrd2011">
-				<input type="radio" id="agrd2011" name="year" value="agrd-2011" />
-				2011
-			</label>
-		</li>
-	  </ul>
-	</fieldset>
-</form>
+	<ul class="key">
+		<li style="border-left: 20px solid #ee7183;">High income</li>
+		<li style="border-left: 20px solid #44b8c9;">Middle income</li>
+		<li style="border-left: 20px solid #8fc297;">Low income</li>
+	</ul>
+
+	<form class="year-select">
+		<fieldset id="agrd-year">
+			<legend>Year</legend>
+			<ul>
+				<li>
+					<label for="agrd1960">
+						<input type="radio" id="agrd1960" name="year" value="agrd-1960" checked/>
+						1960
+					</label>
+				</li>
+				<li>
+					<label for="agrd2011">
+						<input type="radio" id="agrd2011" name="year" value="agrd-2011" />
+						2011
+					</label>
+				</li>
+			</ul>
+		</fieldset>
+	</form>
 
 	<div class="chart" id="agrd-chart">
 		<div class="widget-tooltip tooltip-left hidden" id="widget-tooltip">
