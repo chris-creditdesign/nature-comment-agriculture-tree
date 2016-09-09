@@ -4,10 +4,15 @@
   padding: 10px;
 }
 
+.js-enabled .status-message {
+  display: none;
+}
+
 .outerwrapper {
   width: 100%;
   position: relative;
   border: 1px solid #c8c7cf;
+  display: none;
 }
 .outerwrapper h2, .outerwrapper h3, .outerwrapper p, .outerwrapper form {
   padding: 10px 10px 0 10px;

@@ -1,6 +1,9 @@
 (function() {
 	var init = function($)	{
 
+		$(".outerwrapper").css("display","block");
+		$(".status-message").css("display","none");
+
 		/*	Load D3 */
 		$.getScript("//d3js.org/d3.v4.min.js", function() {
 
