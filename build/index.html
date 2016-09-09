@@ -120,6 +120,8 @@
 	<p>The data used to build this graphic can be downloaded as comma-separated values in plain-text form here: <a href="http://www.nature.com/widget_assets_polopoly/v525n7569/interd-data.csv" title="Download interd-data.csv">interd-data.csv</a>.</p>
 </div> -->
 
+<script src="https://code.jquery.com/jquery-1.4.min.js" type="text/javascript"></script>
+
 <div class="outerwrapper">
 	<h2>INTERACTIVE: Headline</h2>
 	<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis atque sunt incidunt vero, qui nisi! Reprehenderit velit qui, omnis aliquam animi! Repellendus porro, quo quia quisquam repudiandae voluptatem cupiditate maxime.</p>
@@ -202,11 +204,6 @@ BuildWidget.prototype.buildData = function() {
 					return d.agrd2011;
 				} else {
 					return d.agrd1960;
-				}
-			})
-			.sort({
-				sort: function(a, b) {
-					return b.height - a.height || b.agrd1960 - a.agrd1960 || b.agrd2011 - a.agrd2011;
 				}
 			});
 		
@@ -305,19 +302,6 @@ BuildWidget.prototype.updateTree = function() {
  
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 BuildWidget.prototype.updateText = function() {
 	var self = this;
 
@@ -382,6 +366,7 @@ BuildWidget.prototype.updateText = function() {
 			}
 		});
 };
+
 BuildWidget.prototype.buildTooltip = function() {
 	var self = this;
 
@@ -427,7 +412,6 @@ BuildWidget.prototype.hideTooltip = function () {
 	d3.select("#widget-tooltip").classed("hidden", true);
 };
 
-
 (function() {
 	var init = function($)	{
 		var params, widget;
@@ -450,6 +434,7 @@ BuildWidget.prototype.hideTooltip = function () {
 		}
 	}, 60);
 })();
+
 </script>
 <!--<![endif]-->
 <!-- ========= PASTED POLOPOLY FOOTER BELOW ========= -->

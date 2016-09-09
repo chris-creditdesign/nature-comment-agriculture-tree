@@ -55,16 +55,3 @@ BuildWidget.prototype.updateTree = function() {
 		.attr("opacity", 1);
  
 };
-
-
-
-
-
-
-
-
-
-
-
-
-

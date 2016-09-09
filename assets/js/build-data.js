@@ -16,11 +16,6 @@ BuildWidget.prototype.buildData = function() {
 				} else {
 					return d.agrd1960;
 				}
-			})
-			.sort({
-				sort: function(a, b) {
-					return b.height - a.height || b.agrd1960 - a.agrd1960 || b.agrd2011 - a.agrd2011;
-				}
 			});
 		
 			return treemap(root).leaves();

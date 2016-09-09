@@ -42,4 +42,3 @@ BuildWidget.prototype.buildTooltip = function() {
 BuildWidget.prototype.hideTooltip = function () {
 	d3.select("#widget-tooltip").classed("hidden", true);
 };
-
