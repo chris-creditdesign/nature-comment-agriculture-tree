@@ -12,3 +12,10 @@ BuildWidget.prototype.build = function() {
 	this.buildInput();
 	this.buildTooltip();
 };
+
+BuildWidget.prototype.destroy = function(first_argument) {
+	this.svg.remove();
+
+	d3.select("#agrd-year input[name=year]#agrd1960").property("checked",true);
+	d3.select("#agrd-year input[name=year]#agrd2011").property("checked",false);
+};

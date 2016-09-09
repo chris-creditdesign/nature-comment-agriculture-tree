@@ -131,6 +131,7 @@
 	<p>The data used to build this graphic can be downloaded as comma-separated values in plain-text form here: <a href="http://www.nature.com/widget_assets_polopoly/v525n7569/interd-data.csv" title="Download interd-data.csv">interd-data.csv</a>.</p>
 </div> -->
 
+<!-- DELETE: Just for polopoly preview -->
 <script src="https://code.jquery.com/jquery-1.4.min.js" type="text/javascript"></script>
 
 <div class="outerwrapper">
@@ -178,6 +179,11 @@ function buildParams() {
 
 	params.width = d3.select("#content").node().clientWidth;
 	params.height = params.width * 0.8;
+
+	if (params.width < 450) {
+		params.height = params.width;
+	}
+
 	params.year = "agrd-1960";
 
 	params.format = d3.format(",d");
@@ -202,6 +208,13 @@ BuildWidget.prototype.build = function() {
 	this.updateText();
 	this.buildInput();
 	this.buildTooltip();
+};
+
+BuildWidget.prototype.destroy = function(first_argument) {
+	this.svg.remove();
+
+	d3.select("#agrd-year input[name=year]#agrd1960").property("checked",true);
+	d3.select("#agrd-year input[name=year]#agrd2011").property("checked",false);
 };
 
 BuildWidget.prototype.buildData = function() {
@@ -312,10 +325,7 @@ BuildWidget.prototype.updateTree = function() {
 			return d.y1 - d.y0;
 		})
 		.attr("stroke", "#666")
-		.attr("stroke-width", 0)
-		.attr("opacity", 0) 
-		.transition(this.params.transition)
-		.attr("opacity", 1);
+		.attr("stroke-width", 0);
  
 };
 
@@ -368,8 +378,6 @@ BuildWidget.prototype.updateText = function() {
 		.attr("dy", "1em")
 		.attr("dx", "0.3em")
 		.attr("pointer-events", "none")
-		.attr("opacity", 0)
-		.transition(this.params.transition)
 		.attr("opacity", function(d) {
 			var textWidth = d3.select(this).node().getBBox().width;
 			var textHeight = d3.select(this).node().getBBox().height;
@@ -431,14 +439,35 @@ BuildWidget.prototype.hideTooltip = function () {
 
 (function() {
 	var init = function($)	{
-		var params, widget;
 
 		/*	Load D3 */
 		$.getScript("//d3js.org/d3.v4.min.js", function() {
 
-			params = buildParams();
-			widget = new BuildWidget("#agrd-chart", params, data);
+			var width = $(window).width();
+			var didResize = false;
+
+			var params = buildParams();
+			var widget = new BuildWidget("#agrd-chart", params, data);
 			widget.build();
+
+			$( window ).resize(function() {
+				if($(window).width() != width){ 
+					width = $(window).width();
+					didResize = true;
+
+					/* Throttle the resize */
+					setTimeout(function () {
+						if (didResize) {
+							widget.destroy();
+							widget.params = buildParams();
+							widget.build();
+							
+							didResize = false;
+						}
+					}, 60);
+
+				}
+			});
 
 		}); 
 	};

@@ -3,6 +3,11 @@ function buildParams() {
 
 	params.width = d3.select("#content").node().clientWidth;
 	params.height = params.width * 0.8;
+
+	if (params.width < 450) {
+		params.height = params.width;
+	}
+
 	params.year = "agrd-1960";
 
 	params.format = d3.format(",d");

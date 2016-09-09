@@ -1,13 +1,34 @@
 (function() {
 	var init = function($)	{
-		var params, widget;
 
 		/*	Load D3 */
 		$.getScript("//d3js.org/d3.v4.min.js", function() {
 
-			params = buildParams();
-			widget = new BuildWidget("#agrd-chart", params, data);
+			var width = $(window).width();
+			var didResize = false;
+
+			var params = buildParams();
+			var widget = new BuildWidget("#agrd-chart", params, data);
 			widget.build();
+
+			$( window ).resize(function() {
+				if($(window).width() != width){ 
+					width = $(window).width();
+					didResize = true;
+
+					/* Throttle the resize */
+					setTimeout(function () {
+						if (didResize) {
+							widget.destroy();
+							widget.params = buildParams();
+							widget.build();
+							
+							didResize = false;
+						}
+					}, 60);
+
+				}
+			});
 
 		}); 
 	};

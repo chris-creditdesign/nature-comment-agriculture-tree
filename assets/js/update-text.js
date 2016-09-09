@@ -47,8 +47,6 @@ BuildWidget.prototype.updateText = function() {
 		.attr("dy", "1em")
 		.attr("dx", "0.3em")
 		.attr("pointer-events", "none")
-		.attr("opacity", 0)
-		.transition(this.params.transition)
 		.attr("opacity", function(d) {
 			var textWidth = d3.select(this).node().getBBox().width;
 			var textHeight = d3.select(this).node().getBBox().height;
