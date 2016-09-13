@@ -64,7 +64,7 @@
   border: 1px solid #c8c7cf;
   display: none;
 }
-.outerwrapper h2, .outerwrapper h3, .outerwrapper p, .outerwrapper form {
+.outerwrapper h2, .outerwrapper h3, .outerwrapper p, .outerwrapper fieldset {
   padding: 10px 10px 0 10px;
   margin: 0;
 }
@@ -79,15 +79,24 @@
   padding: 0 0 0 6px;
   margin: 4px 15px 8px 0;
 }
-.outerwrapper .year-select ul {
+.outerwrapper .agrd-select legend, .outerwrapper .agrd-select ul, .outerwrapper .agrd-select li {
+  display: inline;
+}
+.outerwrapper .agrd-select ul {
   padding-left: 2px;
   margin-bottom: 10px;
 }
-.outerwrapper .year-select li {
+.outerwrapper .agrd-select li {
   padding: 0 10px 0 0;
+}
+.outerwrapper .footnote {
+  padding-top: 0px;
+  font-size: 0.8em;
+  color: #666;
 }
 .outerwrapper .chart {
   position: relative;
+  margin-top: 10px;
   margin-bottom: -5px;
 }
 .outerwrapper .widget-tooltip {
@@ -147,7 +156,7 @@
 	<h2>INTERACTIVE: SHIFTING RANKS</h2>
 	<p>For the first time in modern history, middle-income countries are investing more in public-sector agricultural research and development (AgR&D) than are high-income ones.</p>
 
-	<p>Hover over each country to reveal their AgR&D converted from local currencies to dollars using 2009 purchasing power parity (PPP) exchange rates.</p>
+	<p>Hover over each country to see its government's spending on AgR&D in 2011 compared with 1960, converted from local currencies to dollars using 2009 purchasing power parity (PPP) exchange rates.</p>
 
 	<ul class="key">
 		<li style="border-left: 20px solid #ee7183;">High income</li>
@@ -155,9 +164,15 @@
 		<li style="border-left: 20px solid #8fc297;">Low income</li>
 	</ul>
 
-	<form class="year-select">
+	<form class="agrd-select">
+		<p>Select a country to highlight:
+
+		<select name="agrd-country-select" id="agrd-country-select">
+		</select></p>
+
+
 		<fieldset id="agrd-year">
-			<legend>Year</legend>
+			<legend>Select a year to display:</legend>
 			<ul>
 				<li>
 					<label for="agrd1960">
@@ -181,6 +196,8 @@
 			<p>$ <span id="agrd-value"></span> million</p>
 		</div>
 	</div>
+
+	<p class="footnote">Countries with a AgR&D spend of less than US$2 million in 1960 or 2011 are not shown.</p>
 </div>
 <!--[if gt IE 8]><!-->
 <script type="text/javascript">
@@ -193,9 +210,12 @@ function buildParams() {
 	params.height = params.width;
 
 	params.year = "agrd-1960";
+	params.defaultCountry = "All";
+	params.country = params.defaultCountry;
+	params.duration = 400;
+	params.delay = 2;
 
 	params.format = d3.format(",d");
-	params.transition = d3.transition().duration(800);
 	params.colourScale = d3.scaleOrdinal()
 		.domain(["high income", "middle income", "low income"])
 		.range(["#ee7183","#44b8c9","#8fc297"]);
@@ -266,12 +286,41 @@ BuildWidget.prototype.buildGraphic = function() {
 
 BuildWidget.prototype.buildInput = function() {
 	var self = this;
+
+	var countryNames = [];
+
+	this.root1960.forEach(function(element, index, array) {
+		if (element.data.agrd1960 > 2 && element.data.agrd2011 > 2) {
+			countryNames.push(element.id);
+		}
+	});
+
+	countryNames.sort().unshift(this.params.defaultCountry);
+
 	this.radioYear = d3.selectAll("#agrd-year input[name=year]");
 
 	this.radioYear.on("change", function() {
 		self.params.year = this.value;
 		self.updateTree();
 		self.updateText();
+	});
+
+	this.countrySelect = d3.select("#agrd-country-select");
+
+	this.countrySelect.selectAll("option")
+		.data(countryNames)
+		.enter()
+		.append("option")
+			.attr("value", function(d) {
+				return d;
+			})
+			.text(function(d) {
+				return d;
+			});
+
+	this.countrySelect.on("change", function() {
+		self.params.country = this.value;
+		self.updateTree();
 	});
 };
 
@@ -287,6 +336,18 @@ BuildWidget.prototype.findData = function() {
 BuildWidget.prototype.updateTree = function() {
 	var self = this;
 
+	function findOpacity(d) {
+		if (self.params.country === self.params.defaultCountry) {
+			return 1;
+		} else {
+			if (d.id === self.params.country) {
+				return 1;
+			} else {
+				return 0.3;
+			}
+		}
+	}
+
 	/* JOIN */
 	this.boxes = this.svgBoxes.selectAll("rect")
 		.data(this.findData(), function(d) {
@@ -298,7 +359,11 @@ BuildWidget.prototype.updateTree = function() {
 		.remove();
 	
 	/* UPDATE */
-	this.boxes.transition(this.params.transition)
+	this.boxes.transition()
+		.duration(this.params.duration)
+		.delay(function (d,i) {
+				return i * self.params.delay;
+		})
 		.attr("x", function(d) {
 			return d.x0;
 		})
@@ -310,6 +375,9 @@ BuildWidget.prototype.updateTree = function() {
 		})
 		.attr("height", function(d) {
 			return d.y1 - d.y0;
+		})
+		.attr("opacity", function(d) {
+			return findOpacity(d);
 		});
 	
 	/* ENTER */
@@ -335,7 +403,10 @@ BuildWidget.prototype.updateTree = function() {
 			return d.y1 - d.y0;
 		})
 		.attr("stroke", "#666")
-		.attr("stroke-width", 0);
+		.attr("stroke-width", 0)
+		.attr("opacity", function(d) {
+			return findOpacity(d);
+		});
  
 };
 
@@ -368,7 +439,11 @@ BuildWidget.prototype.updateText = function() {
 		.remove();
 	
 	/* UPDATE */
-	this.text.transition(this.params.transition)
+	this.text.transition()
+		.duration(this.params.duration)
+		.delay(function (d,i) {
+				return i * self.params.delay;
+		})
 		.attr("x", function(d) {
 			return d.x0;
 		})

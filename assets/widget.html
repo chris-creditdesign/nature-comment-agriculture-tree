@@ -14,7 +14,7 @@
 	<h2>INTERACTIVE: SHIFTING RANKS</h2>
 	<p>For the first time in modern history, middle-income countries are investing more in public-sector agricultural research and development (AgR&D) than are high-income ones.</p>
 
-	<p>Hover over each country to reveal their AgR&D converted from local currencies to dollars using 2009 purchasing power parity (PPP) exchange rates.</p>
+	<p>Hover over each country to see its government's spending on AgR&D in 2011 compared with 1960, converted from local currencies to dollars using 2009 purchasing power parity (PPP) exchange rates.</p>
 
 	<ul class="key">
 		<li style="border-left: 20px solid #ee7183;">High income</li>
@@ -22,9 +22,15 @@
 		<li style="border-left: 20px solid #8fc297;">Low income</li>
 	</ul>
 
-	<form class="year-select">
+	<form class="agrd-select">
+		<p>Select a country to highlight:
+
+		<select name="agrd-country-select" id="agrd-country-select">
+		</select></p>
+
+
 		<fieldset id="agrd-year">
-			<legend>Year</legend>
+			<legend>Select a year to display:</legend>
 			<ul>
 				<li>
 					<label for="agrd1960">
@@ -48,4 +54,6 @@
 			<p>$ <span id="agrd-value"></span> million</p>
 		</div>
 	</div>
+
+	<p class="footnote">Countries with a AgR&D spend of less than US$2 million in 1960 or 2011 are not shown.</p>
 </div>

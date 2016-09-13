@@ -1,6 +1,18 @@
 BuildWidget.prototype.updateTree = function() {
 	var self = this;
 
+	function findOpacity(d) {
+		if (self.params.country === self.params.defaultCountry) {
+			return 1;
+		} else {
+			if (d.id === self.params.country) {
+				return 1;
+			} else {
+				return 0.3;
+			}
+		}
+	}
+
 	/* JOIN */
 	this.boxes = this.svgBoxes.selectAll("rect")
 		.data(this.findData(), function(d) {
@@ -12,7 +24,11 @@ BuildWidget.prototype.updateTree = function() {
 		.remove();
 	
 	/* UPDATE */
-	this.boxes.transition(this.params.transition)
+	this.boxes.transition()
+		.duration(this.params.duration)
+		.delay(function (d,i) {
+				return i * self.params.delay;
+		})
 		.attr("x", function(d) {
 			return d.x0;
 		})
@@ -24,6 +40,9 @@ BuildWidget.prototype.updateTree = function() {
 		})
 		.attr("height", function(d) {
 			return d.y1 - d.y0;
+		})
+		.attr("opacity", function(d) {
+			return findOpacity(d);
 		});
 	
 	/* ENTER */
@@ -49,6 +68,9 @@ BuildWidget.prototype.updateTree = function() {
 			return d.y1 - d.y0;
 		})
 		.attr("stroke", "#666")
-		.attr("stroke-width", 0);
+		.attr("stroke-width", 0)
+		.attr("opacity", function(d) {
+			return findOpacity(d);
+		});
  
 };

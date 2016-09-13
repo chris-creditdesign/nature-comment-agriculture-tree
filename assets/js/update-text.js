@@ -27,7 +27,11 @@ BuildWidget.prototype.updateText = function() {
 		.remove();
 	
 	/* UPDATE */
-	this.text.transition(this.params.transition)
+	this.text.transition()
+		.duration(this.params.duration)
+		.delay(function (d,i) {
+				return i * self.params.delay;
+		})
 		.attr("x", function(d) {
 			return d.x0;
 		})

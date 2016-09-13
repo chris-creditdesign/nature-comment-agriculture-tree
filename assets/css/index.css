@@ -14,7 +14,7 @@
   border: 1px solid #c8c7cf;
   display: none;
 }
-.outerwrapper h2, .outerwrapper h3, .outerwrapper p, .outerwrapper form {
+.outerwrapper h2, .outerwrapper h3, .outerwrapper p, .outerwrapper fieldset {
   padding: 10px 10px 0 10px;
   margin: 0;
 }
@@ -29,15 +29,24 @@
   padding: 0 0 0 6px;
   margin: 4px 15px 8px 0;
 }
-.outerwrapper .year-select ul {
+.outerwrapper .agrd-select legend, .outerwrapper .agrd-select ul, .outerwrapper .agrd-select li {
+  display: inline;
+}
+.outerwrapper .agrd-select ul {
   padding-left: 2px;
   margin-bottom: 10px;
 }
-.outerwrapper .year-select li {
+.outerwrapper .agrd-select li {
   padding: 0 10px 0 0;
+}
+.outerwrapper .footnote {
+  padding-top: 0px;
+  font-size: 0.8em;
+  color: #666;
 }
 .outerwrapper .chart {
   position: relative;
+  margin-top: 10px;
   margin-bottom: -5px;
 }
 .outerwrapper .widget-tooltip {

@@ -16,7 +16,7 @@
 	border: 1px solid #c8c7cf;
 	display: none;
 
-	h2,h3,p,form {
+	h2, h3, p, fieldset {
 		padding: 10px 10px 0 10px;
 		margin: 0;
 	}
@@ -35,7 +35,11 @@
 		}
 	}
 
-	.year-select {
+	.agrd-select {
+		legend, ul, li {
+			display: inline;
+		}
+
 		ul {
 			padding-left: 2px;
 			margin-bottom: 10px;
@@ -46,9 +50,16 @@
 		}
 	}
 
+	.footnote {
+		padding-top: 0px;
+		font-size: 0.8em;
+		color: #666;
+	}
+
 	.chart {
 		position: relative;
-		margin-bottom: -5px // is this a good idea?
+		margin-top: 10px;
+		margin-bottom: -5px; // is this a good idea?
 	}
 
 	.widget-tooltip {
