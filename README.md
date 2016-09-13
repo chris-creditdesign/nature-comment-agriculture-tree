@@ -2,7 +2,7 @@
 
 Built with [d3.js](http://d3js.org/).
 
-Published at [http://www.nature.com/news/1.19465](http://www.nature.com/news/1.19465).
+Published at: tbc.
 
 ### Build process
 
