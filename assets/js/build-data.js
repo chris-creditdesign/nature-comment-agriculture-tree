@@ -1,13 +1,8 @@
 BuildWidget.prototype.buildData = function() {
-	var stratify = d3.stratify();
-
-	var treemap = d3.treemap()
-		.size([this.params.width, this.params.height])
-		.padding(2)
-		.round(true);
+	var self = this;
 
 	function growTree(data, year) {
-		var root = stratify(data)
+		var root = self.params.stratify(data)
 			.sum(function(d) {
 				if (year === "1960") {
 					return d.agrd1960;
@@ -18,7 +13,7 @@ BuildWidget.prototype.buildData = function() {
 				}
 			});
 		
-			return treemap(root).leaves();
+			return self.params.treemap(root).leaves();
 	}
 
 	this.root1960 = growTree(this.data, "1960");

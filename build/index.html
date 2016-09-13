@@ -190,11 +190,7 @@ function buildParams() {
 	var params = {};
 
 	params.width = d3.select("#content").node().clientWidth;
-	params.height = params.width * 0.8;
-
-	if (params.width < 450) {
-		params.height = params.width;
-	}
+	params.height = params.width;
 
 	params.year = "agrd-1960";
 
@@ -203,6 +199,13 @@ function buildParams() {
 	params.colourScale = d3.scaleOrdinal()
 		.domain(["high income", "middle income", "low income"])
 		.range(["#ee7183","#44b8c9","#8fc297"]);
+
+	params.stratify = d3.stratify();
+
+	params.treemap = d3.treemap()
+		.size([params.width, params.height])
+		.padding(1)
+		.round(true);
 
 	return params;
 }
@@ -230,15 +233,10 @@ BuildWidget.prototype.destroy = function(first_argument) {
 };
 
 BuildWidget.prototype.buildData = function() {
-	var stratify = d3.stratify();
-
-	var treemap = d3.treemap()
-		.size([this.params.width, this.params.height])
-		.padding(2)
-		.round(true);
+	var self = this;
 
 	function growTree(data, year) {
-		var root = stratify(data)
+		var root = self.params.stratify(data)
 			.sum(function(d) {
 				if (year === "1960") {
 					return d.agrd1960;
@@ -249,7 +247,7 @@ BuildWidget.prototype.buildData = function() {
 				}
 			});
 		
-			return treemap(root).leaves();
+			return self.params.treemap(root).leaves();
 	}
 
 	this.root1960 = growTree(this.data, "1960");
