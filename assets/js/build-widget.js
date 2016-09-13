@@ -18,4 +18,6 @@ BuildWidget.prototype.destroy = function(first_argument) {
 
 	d3.select("#agrd-year input[name=year]#agrd1960").property("checked",true);
 	d3.select("#agrd-year input[name=year]#agrd2011").property("checked",false);
+
+	this.countrySelect.node().selectedIndex = 0;
 };
