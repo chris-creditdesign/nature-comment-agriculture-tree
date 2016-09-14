@@ -35,8 +35,6 @@ BuildWidget.prototype.buildTooltip = function() {
 			self.hideTooltip();
 			d3.select(this).attr("stroke-width", 0);
 		});
-
-
 };
 
 BuildWidget.prototype.hideTooltip = function () {

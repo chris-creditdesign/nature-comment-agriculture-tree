@@ -97,11 +97,8 @@
 
 <div class="status-message">
 	<p>This interactive graphic requires a modern browser (e.g. Chrome, Safari or Firefox) with javascript enabled.</p>
-	<p>The data used to build this graphic can be downloaded as comma-separated values in plain-text form here: <a href="#" title="Download interd-data.csv">tbc.csv</a>.</p>
+	<p>The data used to build this graphic can be downloaded as comma-separated values in plain-text form here: <a href="http://www.nature.com/polopoly_fs/7.39089!/file/pardey_nature_new.txt" title="pardey_nature_new.txt">pardey_nature_new.txt</a>.</p>
 </div>
-
-<!-- DELETE: Just for polopoly preview -->
-<script src="https://code.jquery.com/jquery-1.4.min.js" type="text/javascript"></script>
 
 <div class="outerwrapper">
 	<h2>INTERACTIVE: SHIFTING RANKS</h2>
@@ -360,7 +357,6 @@ BuildWidget.prototype.updateTree = function() {
 		.attr("opacity", function(d) {
 			return findOpacity(d);
 		});
- 
 };
 
 BuildWidget.prototype.updateText = function() {
@@ -469,8 +465,6 @@ BuildWidget.prototype.buildTooltip = function() {
 			self.hideTooltip();
 			d3.select(this).attr("stroke-width", 0);
 		});
-
-
 };
 
 BuildWidget.prototype.hideTooltip = function () {
@@ -478,12 +472,12 @@ BuildWidget.prototype.hideTooltip = function () {
 };
 
 (function() {
-	var init = function($)	{
+	var init = function($) {
 
 		$(".outerwrapper").css("display","block");
 		$(".status-message").css("display","none");
 
-		/*	Load D3 */
+		/* Load D3 */
 		$.getScript("//d3js.org/d3.v4.min.js", function() {
 
 			var width = $(window).width();

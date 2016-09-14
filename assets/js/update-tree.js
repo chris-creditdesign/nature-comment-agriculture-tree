@@ -72,5 +72,4 @@ BuildWidget.prototype.updateTree = function() {
 		.attr("opacity", function(d) {
 			return findOpacity(d);
 		});
- 
 };
