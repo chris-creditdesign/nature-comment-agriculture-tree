@@ -2,7 +2,7 @@
 
 Built with [d3.js](http://d3js.org/).
 
-Published at: tbc.
+Published at: https://www.nature.com/news/agricultural-rd-is-on-the-move-1.20571.
 
 ### Build process
 
